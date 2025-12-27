@@ -7,10 +7,10 @@ export const EmptyState = () => {
       <div className="text-center p-8">
         <SearchX className="mx-auto h-16 w-16 text-muted-foreground" />
         <h2 className="mt-4 text-2xl font-headline font-semibold text-foreground">
-          No Books Found
+          No Books Products
         </h2>
         <p className="mt-2 text-muted-foreground">
-          Your search did not match any books. <br />
+          Your search did not match any products. <br />
           Try searching for something else.
         </p>
       </div>
