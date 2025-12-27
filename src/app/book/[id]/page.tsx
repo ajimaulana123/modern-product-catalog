@@ -57,7 +57,6 @@ const BookDetailSkeleton = () => (
             <div className="h-4 w-full bg-muted rounded-md"></div>
             <div className="h-4 w-5/6 bg-muted rounded-md"></div>
         </div>
-        <div className="mt-8 h-12 w-48 bg-muted rounded-md"></div>
       </div>
     </div>
   </div>
@@ -137,7 +136,6 @@ export default function BookDetailPage({ params: { id } }: { params: { id: strin
                 className="object-cover"
                 />
             </div>
-            {/* You can add a gallery for more images here if you want */}
           </div>
           <div className="flex flex-col">
             <Badge variant="secondary" className="w-fit mb-2">{book.category}</Badge>
@@ -147,7 +145,7 @@ export default function BookDetailPage({ params: { id } }: { params: { id: strin
 
             <div className="flex items-center gap-4 mb-6">
                 <StarRating rating={book.rating} />
-                <span className="text-muted-foreground text-sm">({book.reviews.length} ulasan)</span>
+                <span className="text-muted-foreground text-sm">({book.reviews?.length || 0} ulasan)</span>
             </div>
 
             <div>
@@ -175,8 +173,6 @@ export default function BookDetailPage({ params: { id } }: { params: { id: strin
                 <Separator orientation="vertical" className="h-4"/>
                 <span>Merek: <span className="font-semibold">{book.brand}</span></span>
             </div>
-
-            <Button size="lg" className="mt-auto w-full sm:w-auto">Tambah ke Keranjang</Button>
 
           </div>
         </div>

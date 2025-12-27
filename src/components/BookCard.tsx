@@ -56,15 +56,16 @@ export const BookCard = ({ book }: { book: Book }) => {
             className="object-cover transition-transform duration-500 ease-in-out group-hover:scale-110"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
+          {book.discountPercentage > 0 && (
+            <Badge variant="destructive" className="absolute top-3 right-3 rounded-md">{book.discountPercentage}% OFF</Badge>
+          )}
           <Badge variant="secondary" className="absolute top-3 left-3 rounded-md">{book.category}</Badge>
         </div>
         <CardContent className="flex flex-1 flex-col p-4">
           <h3 className="font-headline text-lg leading-tight mb-2 flex-grow text-foreground">
             {book.title}
           </h3>
-          <p className="text-sm text-muted-foreground mb-4 line-clamp-3 flex-grow">
-            {book.description}
-          </p>
+          
           <div className="mt-4 flex flex-wrap items-end justify-between gap-2">
             <div>
               <div className="flex flex-col items-start gap-0">
