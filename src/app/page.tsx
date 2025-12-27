@@ -11,6 +11,7 @@ import { Pagination } from '@/components/Pagination';
 import { Footer } from '@/components/Footer';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { BookDetail } from '@/components/BookDetail';
+import { LoadingState } from '@/components/LoadingState';
 
 const ITEMS_PER_PAGE = 8;
 
@@ -64,13 +65,17 @@ export default function Home() {
       </div>
     );
   }
+  
+  if (loading && books.length === 0) {
+    return <LoadingState />;
+  }
 
   return (
     <div className="min-h-screen flex flex-col">
       <Header searchQuery={searchQuery} onSearch={setSearchQuery} />
       <main className="container mx-auto px-4 py-8 sm:px-6 lg:px-8 flex-grow">
         {loading ? (
-          <BookGrid
+           <BookGrid
             books={[]}
             isLoading={true}
             itemsPerPage={ITEMS_PER_PAGE}
