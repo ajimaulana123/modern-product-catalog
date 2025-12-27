@@ -15,6 +15,8 @@ import {
 } from '@/components/ui/carousel';
 import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useState } from 'react';
 
 const StarRating = ({
   rating,
@@ -57,6 +59,13 @@ const formatCurrency = (amount: number) => {
 
 export function BookDetail({ book }: { book: Book }) {
   const discountedPrice = book.price * (1 - book.discountPercentage / 100);
+  const [activeTab, setActiveTab] = useState('description');
+
+  const tabContentVariants = {
+    initial: { opacity: 0, y: 10 },
+    animate: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: -10 },
+  };
 
   return (
     <div className="p-2 sm:p-4">
@@ -123,43 +132,62 @@ export function BookDetail({ book }: { book: Book }) {
                 <span>Brand: <span className="font-semibold">{book.brand}</span></span>
             </div>
 
-          <Tabs defaultValue="description" className="w-full">
+          <Tabs defaultValue="description" className="w-full" onValueChange={setActiveTab}>
             <TabsList className='mb-4'>
               <TabsTrigger value="description">Description</TabsTrigger>
               <TabsTrigger value="details">Details</TabsTrigger>
               <TabsTrigger value="reviews">Reviews</TabsTrigger>
             </TabsList>
-            <TabsContent value="description" className="text-muted-foreground leading-relaxed">
-              {book.description}
-            </TabsContent>
-            <TabsContent value="details">
-                <ul className="space-y-2 text-sm text-muted-foreground">
-                    <li><span className="font-semibold text-foreground">SKU:</span> {book.sku}</li>
-                    <li><span className="font-semibold text-foreground">Weight:</span> {book.weight}g</li>
-                    <li><span className="font-semibold text-foreground">Dimensions:</span> {book.dimensions.width} x {book.dimensions.height} x {book.dimensions.depth} cm</li>
-                    <li><span className="font-semibold text-foreground">Warranty:</span> {book.warrantyInformation}</li>
-                    <li><span className="font-semibold text-foreground">Shipping:</span> {book.shippingInformation}</li>
-                    <li><span className="font-semibold text-foreground">Return Policy:</span> {book.returnPolicy}</li>
-                    {book.tags?.length > 0 && <li><span className="font-semibold text-foreground">Tags:</span> {book.tags.join(', ')}</li>}
-                </ul>
-            </TabsContent>
-            <TabsContent value="reviews">
-                {book.reviews?.length > 0 ? (
-                     <div className="space-y-4">
-                        {book.reviews.map((review, index) => (
-                            <div key={index} className="border-b pb-4 last:border-b-0">
-                                <div className="flex items-center justify-between mb-1">
-                                    <h4 className="font-semibold text-foreground">{review.reviewerName}</h4>
-                                    <StarRating rating={review.rating}/>
+            <div className="relative min-h-[150px]">
+              <AnimatePresence mode="wait">
+                <motion.div
+                    key={activeTab}
+                    initial="initial"
+                    animate="animate"
+                    exit="exit"
+                    variants={tabContentVariants}
+                    transition={{ duration: 0.3, ease: 'easeInOut' }}
+                >
+                    {activeTab === 'description' && (
+                        <TabsContent value="description" forceMount className="text-muted-foreground leading-relaxed">
+                            {book.description}
+                        </TabsContent>
+                    )}
+                    {activeTab === 'details' && (
+                        <TabsContent value="details" forceMount>
+                            <ul className="space-y-2 text-sm text-muted-foreground">
+                                <li><span className="font-semibold text-foreground">SKU:</span> {book.sku}</li>
+                                <li><span className="font-semibold text-foreground">Weight:</span> {book.weight}g</li>
+                                <li><span className="font-semibold text-foreground">Dimensions:</span> {book.dimensions.width} x {book.dimensions.height} x {book.dimensions.depth} cm</li>
+                                <li><span className="font-semibold text-foreground">Warranty:</span> {book.warrantyInformation}</li>
+                                <li><span className="font-semibold text-foreground">Shipping:</span> {book.shippingInformation}</li>
+                                <li><span className="font-semibold text-foreground">Return Policy:</span> {book.returnPolicy}</li>
+                                {book.tags?.length > 0 && <li><span className="font-semibold text-foreground">Tags:</span> {book.tags.join(', ')}</li>}
+                            </ul>
+                        </TabsContent>
+                    )}
+                    {activeTab === 'reviews' && (
+                        <TabsContent value="reviews" forceMount>
+                            {book.reviews?.length > 0 ? (
+                                <div className="space-y-4">
+                                    {book.reviews.map((review, index) => (
+                                        <div key={index} className="border-b pb-4 last:border-b-0">
+                                            <div className="flex items-center justify-between mb-1">
+                                                <h4 className="font-semibold text-foreground">{review.reviewerName}</h4>
+                                                <StarRating rating={review.rating}/>
+                                            </div>
+                                            <p className="text-sm text-muted-foreground">{review.comment}</p>
+                                        </div>
+                                    ))}
                                 </div>
-                                <p className="text-sm text-muted-foreground">{review.comment}</p>
-                            </div>
-                        ))}
-                    </div>
-                ): (
-                    <p className="text-sm text-muted-foreground">No reviews yet.</p>
-                )}
-            </TabsContent>
+                            ): (
+                                <p className="text-sm text-muted-foreground">No reviews yet.</p>
+                            )}
+                        </TabsContent>
+                    )}
+                </motion.div>
+              </AnimatePresence>
+            </div>
           </Tabs>
         </div>
       </div>
