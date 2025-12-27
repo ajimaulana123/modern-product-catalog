@@ -61,9 +61,9 @@ export default function Home() {
     <div className="min-h-screen bg-background">
       <main className="container mx-auto px-4 py-8 sm:px-6 lg:px-8">
         <header className="mb-8 text-center">
-          <h1 className="text-6xl font-bold text-foreground">
-            <span className="font-logo">Ziyad</span>
-            <span className="font-headline text-5xl">books</span>
+          <h1 className="text-6xl font-bold">
+            <span className="font-logo text-primary">Ziyad</span>
+            <span className="font-headline text-5xl text-foreground">books</span>
           </h1>
           <p className="mt-3 text-lg text-muted-foreground sm:mt-4">
             Katalog buku modern Anda, tertata dengan indah.
