@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import Image from "next/image";
 import type { Book } from "@/lib/types/book";
 import { useBooks } from "@/hooks/useBooks";
 
@@ -61,9 +62,14 @@ export default function Home() {
     <div className="min-h-screen bg-background">
       <main className="container mx-auto px-4 py-8 sm:px-6 lg:px-8">
         <header className="mb-8 text-center">
-          <h1 className="font-headline text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
-            LitFolio
-          </h1>
+          <Image
+            src="https://firebasestudio.ai/codelabs-assets/codelab-nextjs-litfolio/ziyadbooks-logo.png"
+            alt="Ziyadbooks Logo"
+            width={350}
+            height={71}
+            className="mx-auto"
+            priority
+          />
           <p className="mt-3 text-lg text-muted-foreground sm:mt-4">
             Katalog buku modern Anda, tertata dengan indah.
           </p>
@@ -95,7 +101,7 @@ export default function Home() {
         )}
       </main>
       <footer className="py-6 text-center text-sm text-muted-foreground">
-        <p>&copy; {new Date().getFullYear()} LitFolio. Semua hak dilindungi undang-undang.</p>
+        <p>&copy; {new Date().getFullYear()} Ziyadbooks. Semua hak dilindungi undang-undang.</p>
       </footer>
     </div>
   );

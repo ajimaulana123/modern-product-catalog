@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/toaster";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "LitFolio",
+  title: "Ziyadbooks",
   description: "Katalog buku modern yang dibuat dengan Next.js",
 };
 
