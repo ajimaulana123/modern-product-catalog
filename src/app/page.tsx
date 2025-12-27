@@ -1,21 +1,24 @@
-"use client";
+'use client';
 
-import { useState, useMemo, useEffect } from "react";
-import type { Book } from "@/lib/types/book";
-import { useBooks } from "@/hooks/useBooks";
+import { useState, useMemo, useEffect } from 'react';
+import type { Book } from '@/lib/types/book';
+import { useBooks } from '@/hooks/useBooks';
 
-import { Header } from "@/components/Header";
-import { BookGrid } from "@/components/BookGrid";
-import { EmptyState } from "@/components/EmptyState";
-import { Pagination } from "@/components/Pagination";
-import { Footer } from "@/components/Footer";
+import { Header } from '@/components/Header';
+import { BookGrid } from '@/components/BookGrid';
+import { EmptyState } from '@/components/EmptyState';
+import { Pagination } from '@/components/Pagination';
+import { Footer } from '@/components/Footer';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { BookDetail } from '@/components/BookDetail';
 
 const ITEMS_PER_PAGE = 8;
 
 export default function Home() {
   const { books, loading, error } = useBooks();
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedBook, setSelectedBook] = useState<Book | null>(null);
 
   const filteredBooks = useMemo(() => {
     if (!books) return [];
@@ -37,34 +40,45 @@ export default function Home() {
     const endIndex = startIndex + ITEMS_PER_PAGE;
     return filteredBooks.slice(startIndex, endIndex);
   }, [filteredBooks, currentPage]);
-  
+
   // Reset to page 1 when search query changes
   useEffect(() => {
     setCurrentPage(1);
   }, [searchQuery]);
 
+  const handleBookClick = (book: Book) => {
+    setSelectedBook(book);
+  };
+
+  const handleCloseDialog = () => {
+    setSelectedBook(null);
+  };
 
   if (error) {
     // Error will be shown as a toast, but we can have a fallback UI
     return (
       <div className="flex h-screen items-center justify-center">
-        <p className="text-destructive-foreground">Gagal memuat buku. Silakan coba lagi nanti.</p>
+        <p className="text-destructive-foreground">
+          Gagal memuat buku. Silakan coba lagi nanti.
+        </p>
       </div>
     );
   }
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Header 
-        searchQuery={searchQuery}
-        onSearch={setSearchQuery}
-      />
+      <Header searchQuery={searchQuery} onSearch={setSearchQuery} />
       <main className="container mx-auto px-4 py-8 sm:px-6 lg:px-8 flex-grow">
         {loading ? (
-          <BookGrid books={[]} isLoading={true} itemsPerPage={ITEMS_PER_PAGE} />
+          <BookGrid
+            books={[]}
+            isLoading={true}
+            itemsPerPage={ITEMS_PER_PAGE}
+            onBookClick={handleBookClick}
+          />
         ) : paginatedBooks.length > 0 ? (
           <>
-            <BookGrid books={paginatedBooks} />
+            <BookGrid books={paginatedBooks} onBookClick={handleBookClick} />
             {totalPages > 1 && (
               <div className="mt-12">
                 <Pagination
@@ -80,6 +94,11 @@ export default function Home() {
         )}
       </main>
       <Footer />
+      <Dialog open={!!selectedBook} onOpenChange={(isOpen) => !isOpen && handleCloseDialog()}>
+        <DialogContent className="max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+          {selectedBook && <BookDetail book={selectedBook} />}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
