@@ -38,11 +38,14 @@ const formatCurrency = (amount: number) => {
   }).format(idrAmount);
 };
 
-export const BookCard = ({ book }: { book: Book }) => {
+export const BookCard = ({ book, index }: { book: Book, index: number }) => {
   const discountedPrice = book.price * (1 - book.discountPercentage / 100);
 
   return (
-    <Card className="group flex h-full flex-col overflow-hidden rounded-lg border border-border bg-card transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-2">
+    <Card 
+      className="group flex h-full flex-col overflow-hidden rounded-lg border border-border bg-card transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-2 animate-fade-in-up"
+      style={{ animationDelay: `${index * 100}ms`, animationFillMode: 'both' }}
+    >
       <div className="relative aspect-[4/3] w-full overflow-hidden">
         <Image
           src={book.thumbnail}
