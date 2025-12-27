@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import type { Book, BookApiResponse } from "@/lib/types/book";
 import { useToast } from "@/hooks/use-toast";
+import { translateToIndonesian } from "@/ai/flows/translate-flow";
 
 export const useBooks = () => {
   const [books, setBooks] = useState<Book[]>([]);
@@ -20,11 +21,29 @@ export const useBooks = () => {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data: BookApiResponse = await response.json();
-        // The API returns 'smartphones' and other items, let's filter for book-like things
+        
         const bookCategories = ["groceries", "home-decoration", "furniture", "lighting"];
         const filteredProducts = data.products.filter(p => !bookCategories.includes(p.category));
 
-        setBooks(filteredProducts);
+        // Translate descriptions
+        const translatedProducts = await Promise.all(
+          filteredProducts.map(async (product) => {
+            try {
+              const translationResult = await translateToIndonesian({ text: product.description });
+              return {
+                ...product,
+                description: translationResult.translation,
+              };
+            } catch (e) {
+              console.error(`Could not translate description for ${product.title}`, e);
+              // Fallback to original description if translation fails
+              return product;
+            }
+          })
+        );
+        
+        setBooks(translatedProducts);
+
       } catch (e: unknown) {
         const errorMessage = e instanceof Error ? e.message : "Terjadi kesalahan yang tidak diketahui";
         setError(errorMessage);
