@@ -1,5 +1,20 @@
 # 📚 Product Store Application
 
+```
+⚠️ Contribution Disclaimer
+
+Pada repository ini terdapat dua akun kontribusi. Hal ini terjadi karena proses pengerjaan project dilakukan dalam dua tahap:
+
+- axtercode77
+  Digunakan pada tahap awal (*initial project*) menggunakan Firebase Studio dengan pendekatan vibecode.
+
+- ajimaulana123 
+  Digunakan pada tahap lanjutan di local environment untuk melakukan refactoring, dengan tujuan membuat struktur kode lebih modular, rapi, dan maintainable.
+
+Seluruh proses pengerjaan, baik tahap awal maupun refactoring, sepenuhnya dikerjakan oleh saya sendiri,  
+Aji Maulana, sebagai satu-satunya kontributor dalam project ini.
+```
+
 A modern, responsive product store web application built with Next.js. Features a beautiful UI with browsing, search, filtering, and detailed products views.
 
 ## 🚀 Features
