@@ -3,13 +3,14 @@
 import { useState, useMemo, useEffect } from 'react';
 import type { Book } from '@/lib/types/book';
 import { useBooks } from '@/hooks/useBooks';
+import { AnimatePresence, motion } from 'framer-motion';
 
 import { Header } from '@/components/Header';
 import { BookGrid } from '@/components/BookGrid';
 import { EmptyState } from '@/components/EmptyState';
 import { Pagination } from '@/components/Pagination';
 import { Footer } from '@/components/Footer';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogOverlay, DialogPortal } from '@/components/ui/dialog';
 import { BookDetail } from '@/components/BookDetail';
 import { LoadingState } from '@/components/LoadingState';
 
@@ -99,18 +100,35 @@ export default function Home() {
         )}
       </main>
       <Footer />
-      <Dialog open={!!selectedBook} onOpenChange={(isOpen) => !isOpen && handleCloseDialog()}>
-        <DialogContent className="max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-          {selectedBook && (
-            <>
-              <DialogHeader>
-                <DialogTitle className="sr-only">{selectedBook.title}</DialogTitle>
-              </DialogHeader>
-              <BookDetail book={selectedBook} />
-            </>
-          )}
-        </DialogContent>
-      </Dialog>
+      <AnimatePresence>
+        {selectedBook && (
+            <Dialog open onOpenChange={(isOpen) => !isOpen && handleCloseDialog()}>
+                <DialogPortal>
+                    <DialogOverlay asChild>
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                        />
+                    </DialogOverlay>
+                    <DialogContent className="max-w-4xl w-full max-h-[90vh] overflow-y-auto p-0" asChild>
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.95 }}
+                            transition={{ duration: 0.3, ease: 'easeInOut' }}
+                            className="p-6"
+                        >
+                            <DialogHeader>
+                                <DialogTitle className="sr-only">{selectedBook.title}</DialogTitle>
+                            </DialogHeader>
+                            <BookDetail book={selectedBook} />
+                        </motion.div>
+                    </DialogContent>
+                </DialogPortal>
+            </Dialog>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
