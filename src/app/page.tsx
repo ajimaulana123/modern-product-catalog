@@ -8,10 +8,14 @@ import { SearchBar } from "@/components/SearchBar";
 import { BookGrid } from "@/components/BookGrid";
 import { Loader } from "@/components/Loader";
 import { EmptyState } from "@/components/EmptyState";
+import { Pagination } from "@/components/Pagination";
+
+const ITEMS_PER_PAGE = 8;
 
 export default function Home() {
   const { books, loading, error } = useBooks();
   const [searchQuery, setSearchQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
 
   const filteredBooks = useMemo(() => {
     if (!books) return [];
@@ -25,6 +29,20 @@ export default function Home() {
         book.category.toLowerCase().includes(query)
     );
   }, [books, searchQuery]);
+
+  const totalPages = Math.ceil(filteredBooks.length / ITEMS_PER_PAGE);
+
+  const paginatedBooks = useMemo(() => {
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    const endIndex = startIndex + ITEMS_PER_PAGE;
+    return filteredBooks.slice(startIndex, endIndex);
+  }, [filteredBooks, currentPage]);
+  
+  // Reset to page 1 when search query changes
+  useMemo(() => {
+    setCurrentPage(1);
+  }, [searchQuery]);
+
 
   if (loading) {
     return <Loader />;
@@ -59,8 +77,19 @@ export default function Home() {
           />
         </div>
 
-        {filteredBooks.length > 0 ? (
-          <BookGrid books={filteredBooks} />
+        {paginatedBooks.length > 0 ? (
+          <>
+            <BookGrid books={paginatedBooks} />
+            {totalPages > 1 && (
+              <div className="mt-8">
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={setCurrentPage}
+                />
+              </div>
+            )}
+          </>
         ) : (
           <EmptyState />
         )}
