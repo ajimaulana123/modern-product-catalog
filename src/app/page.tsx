@@ -9,7 +9,7 @@ import { BookGrid } from '@/components/BookGrid';
 import { EmptyState } from '@/components/EmptyState';
 import { Pagination } from '@/components/Pagination';
 import { Footer } from '@/components/Footer';
-import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { BookDetail } from '@/components/BookDetail';
 
 const ITEMS_PER_PAGE = 8;
@@ -96,7 +96,14 @@ export default function Home() {
       <Footer />
       <Dialog open={!!selectedBook} onOpenChange={(isOpen) => !isOpen && handleCloseDialog()}>
         <DialogContent className="max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-          {selectedBook && <BookDetail book={selectedBook} />}
+          {selectedBook && (
+            <>
+              <DialogHeader>
+                <DialogTitle className="sr-only">{selectedBook.title}</DialogTitle>
+              </DialogHeader>
+              <BookDetail book={selectedBook} />
+            </>
+          )}
         </DialogContent>
       </Dialog>
     </div>
