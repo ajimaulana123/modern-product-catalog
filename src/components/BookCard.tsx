@@ -40,13 +40,10 @@ const StarRating = ({
 };
 
 const formatCurrency = (amount: number) => {
-  const idrAmount = amount * 15000;
-  return new Intl.NumberFormat('id-ID', {
+  return new Intl.NumberFormat('en-US', {
     style: 'currency',
-    currency: 'IDR',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(idrAmount);
+    currency: 'USD',
+  }).format(amount);
 };
 
 export const BookCard = ({
@@ -106,7 +103,7 @@ export const BookCard = ({
             <div className="flex flex-col items-end gap-1">
               <StarRating rating={book.rating} />
               <p className="text-xs text-muted-foreground">
-                {book.stock} tersedia
+                {book.stock} in stock
               </p>
             </div>
           </div>

@@ -27,12 +27,12 @@ export const useBooks = () => {
         setBooks(filteredProducts);
 
       } catch (e: unknown) {
-        const errorMessage = e instanceof Error ? e.message : "Terjadi kesalahan yang tidak diketahui";
+        const errorMessage = e instanceof Error ? e.message : "An unknown error occurred";
         setError(errorMessage);
         toast({
           variant: "destructive",
-          title: "Oops! Terjadi kesalahan.",
-          description: `Ada masalah saat mengambil data buku: ${errorMessage}`,
+          title: "Oops! Something went wrong.",
+          description: `There was a problem fetching the book data: ${errorMessage}`,
         });
       } finally {
         setLoading(false);

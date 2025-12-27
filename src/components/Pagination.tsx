@@ -77,14 +77,14 @@ export const Pagination = ({
   if (totalPages <= 1) return null;
 
   return (
-    <nav aria-label="Navigasi halaman">
+    <nav aria-label="Page navigation">
       <div className="flex items-center justify-center space-x-2">
         <Button
           variant="outline"
           size="icon"
           onClick={handlePrevious}
           disabled={currentPage === 1}
-          aria-label="Ke halaman sebelumnya"
+          aria-label="Go to previous page"
         >
           <ChevronLeft className="h-4 w-4" />
         </Button>
@@ -102,7 +102,7 @@ export const Pagination = ({
               variant={currentPage === page ? "default" : "outline"}
               size="icon"
               onClick={() => onPageChange(page as number)}
-              aria-label={`Ke halaman ${page}`}
+              aria-label={`Go to page ${page}`}
               aria-current={currentPage === page ? "page" : undefined}
             >
               {page}
@@ -114,7 +114,7 @@ export const Pagination = ({
           size="icon"
           onClick={handleNext}
           disabled={currentPage === totalPages}
-          aria-label="Ke halaman berikutnya"
+          aria-label="Go to next page"
         >
           <ChevronRight className="h-4 w-4" />
         </Button>

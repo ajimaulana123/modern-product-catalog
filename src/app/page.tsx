@@ -61,7 +61,7 @@ export default function Home() {
     return (
       <div className="flex h-screen items-center justify-center">
         <p className="text-destructive-foreground">
-          Gagal memuat buku. Silakan coba lagi nanti.
+          Failed to load books. Please try again later.
         </p>
       </div>
     );
@@ -109,6 +109,7 @@ export default function Home() {
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
+                            transition={{ duration: 0.3 }}
                         />
                     </DialogOverlay>
                     <DialogContent className="max-w-4xl w-full max-h-[90vh] overflow-y-auto p-0" asChild>
@@ -117,7 +118,6 @@ export default function Home() {
                             animate={{ opacity: 1, scale: 1 }}
                             exit={{ opacity: 0, scale: 0.95 }}
                             transition={{ duration: 0.3, ease: 'easeInOut' }}
-                            className="p-6"
                         >
                             <DialogHeader>
                                 <DialogTitle className="sr-only">{selectedBook.title}</DialogTitle>

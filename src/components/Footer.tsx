@@ -14,7 +14,7 @@ export const Footer = () => {
                 <span className="font-headline text-3xl text-foreground">books</span>
             </h2>
             <p className="mt-2 text-sm text-muted-foreground">
-              Katalog buku modern Anda.
+              Your modern book catalog.
             </p>
           </div>
 
@@ -35,7 +35,7 @@ export const Footer = () => {
         </div>
 
         <div className="mt-8 border-t border-border pt-6 text-center text-sm text-muted-foreground">
-          <p>&copy; {new Date().getFullYear()} Ziyadbooks. Semua hak dilindungi undang-undang.</p>
+          <p>&copy; {new Date().getFullYear()} Ziyadbooks. All rights reserved.</p>
         </div>
       </div>
     </footer>

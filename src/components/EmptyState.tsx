@@ -7,11 +7,11 @@ export const EmptyState = () => {
       <div className="text-center p-8">
         <SearchX className="mx-auto h-16 w-16 text-muted-foreground" />
         <h2 className="mt-4 text-2xl font-headline font-semibold text-foreground">
-          Tidak Ada Buku yang Ditemukan
+          No Books Found
         </h2>
         <p className="mt-2 text-muted-foreground">
-          Pencarian Anda tidak cocok dengan buku apa pun. <br />
-          Coba cari yang lain.
+          Your search did not match any books. <br />
+          Try searching for something else.
         </p>
       </div>
     </div>

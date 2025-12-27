@@ -2,8 +2,7 @@
 
 import Image from 'next/image';
 import type { Book } from '@/lib/types/book';
-import { Star, StarHalf, ChevronLeft } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Star, StarHalf } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
@@ -41,13 +40,10 @@ const StarRating = ({
 };
 
 const formatCurrency = (amount: number) => {
-  const idrAmount = amount * 15000;
-  return new Intl.NumberFormat('id-ID', {
+  return new Intl.NumberFormat('en-US', {
     style: 'currency',
-    currency: 'IDR',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(idrAmount);
+    currency: 'USD',
+  }).format(amount);
 };
 
 export function BookDetail({ book }: { book: Book }) {
@@ -75,7 +71,7 @@ export function BookDetail({ book }: { book: Book }) {
 
             <div className="flex items-center gap-4 mb-6">
                 <StarRating rating={book.rating} />
-                <span className="text-muted-foreground text-sm">({book.reviews?.length || 0} ulasan)</span>
+                <span className="text-muted-foreground text-sm">({book.reviews?.length || 0} reviews)</span>
             </div>
 
             <div>
@@ -99,9 +95,9 @@ export function BookDetail({ book }: { book: Book }) {
             </p>
             
             <div className="flex items-center gap-4 text-sm text-foreground">
-                <span>Stok: <span className="font-semibold">{book.stock}</span></span>
+                <span>Stock: <span className="font-semibold">{book.stock}</span></span>
                 <Separator orientation="vertical" className="h-4"/>
-                <span>Merek: <span className="font-semibold">{book.brand}</span></span>
+                <span>Brand: <span className="font-semibold">{book.brand}</span></span>
             </div>
 
           </div>

@@ -22,7 +22,7 @@ export const Header = ({ searchQuery, onSearch }: HeaderProps) => {
             <SearchBar
               value={searchQuery}
               onSearch={onSearch}
-              placeholder="Cari berdasarkan judul, kategori, atau deskripsi..."
+              placeholder="Search by title, category, or description..."
             />
           </div>
         </div>

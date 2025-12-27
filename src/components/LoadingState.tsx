@@ -6,10 +6,10 @@ export const LoadingState = () => {
       <div className="text-center p-8">
         <LoaderCircle className="mx-auto h-16 w-16 animate-spin text-primary" />
         <h2 className="mt-4 text-2xl font-headline font-semibold">
-          Memuat Buku...
+          Loading Books...
         </h2>
         <p className="mt-2 text-muted-foreground">
-          Harap tunggu sebentar.
+          Please wait a moment.
         </p>
       </div>
     </div>
