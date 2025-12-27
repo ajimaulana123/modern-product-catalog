@@ -86,7 +86,7 @@ export function BookDetail({ book }: { book: Book }) {
                     <div className="p-1">
                         <Card>
                         <CardContent className="relative aspect-video flex items-center justify-center p-0 overflow-hidden rounded-lg">
-                            {isLoading && <Skeleton className="absolute inset-0 h-full w-full rounded-lg" />}
+                            {isLoading && <Skeleton className="absolute inset-0 h-full w-full rounded-lg shimmer" />}
                             <Image
                                 src={img}
                                 alt={`${book.title} - image ${index + 1}`}
