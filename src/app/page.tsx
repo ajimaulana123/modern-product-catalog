@@ -4,7 +4,7 @@ import { useState, useMemo, useEffect } from "react";
 import type { Book } from "@/lib/types/book";
 import { useBooks } from "@/hooks/useBooks";
 
-import { SearchBar } from "@/components/SearchBar";
+import { Header } from "@/components/Header";
 import { BookGrid } from "@/components/BookGrid";
 import { EmptyState } from "@/components/EmptyState";
 import { Pagination } from "@/components/Pagination";
@@ -55,25 +55,11 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
+      <Header 
+        searchQuery={searchQuery}
+        onSearch={setSearchQuery}
+      />
       <main className="container mx-auto px-4 py-8 sm:px-6 lg:px-8 flex-grow">
-        <header className="mb-8 text-center">
-          <h1 className="text-6xl font-bold">
-            <span className="font-logo text-primary">Ziyad</span>
-            <span className="font-headline text-5xl text-foreground">books</span>
-          </h1>
-          <p className="mt-3 text-lg text-muted-foreground sm:mt-4">
-            Katalog buku modern Anda, tertata dengan indah.
-          </p>
-        </header>
-
-        <div className="mb-8 max-w-xl mx-auto">
-          <SearchBar
-            value={searchQuery}
-            onSearch={setSearchQuery}
-            placeholder="Cari berdasarkan judul, kategori, atau deskripsi..."
-          />
-        </div>
-
         {loading ? (
           <BookGrid books={[]} isLoading={true} itemsPerPage={ITEMS_PER_PAGE} />
         ) : paginatedBooks.length > 0 ? (
