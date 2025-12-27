@@ -1,3 +1,73 @@
+"use client";
+
+import { useState, useMemo } from "react";
+import type { Book } from "@/lib/types/book";
+import { useBooks } from "@/hooks/useBooks";
+
+import { SearchBar } from "@/components/SearchBar";
+import { BookGrid } from "@/components/BookGrid";
+import { Loader } from "@/components/Loader";
+import { EmptyState } from "@/components/EmptyState";
+
 export default function Home() {
-  return <></>;
+  const { books, loading, error } = useBooks();
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const filteredBooks = useMemo(() => {
+    if (!books) return [];
+    const query = searchQuery.toLowerCase().trim();
+    if (!query) return books;
+
+    return books.filter(
+      (book: Book) =>
+        book.title.toLowerCase().includes(query) ||
+        book.description.toLowerCase().includes(query) ||
+        book.category.toLowerCase().includes(query)
+    );
+  }, [books, searchQuery]);
+
+  if (loading) {
+    return <Loader />;
+  }
+
+  if (error) {
+    // Error will be shown as a toast, but we can have a fallback UI
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <p className="text-destructive-foreground">Failed to load books. Please try again later.</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-background">
+      <main className="container mx-auto px-4 py-8 sm:px-6 lg:px-8">
+        <header className="mb-8 text-center">
+          <h1 className="font-headline text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
+            LitFolio
+          </h1>
+          <p className="mt-3 text-lg text-muted-foreground sm:mt-4">
+            Your modern book catalog, beautifully organized.
+          </p>
+        </header>
+
+        <div className="mb-8 max-w-2xl mx-auto">
+          <SearchBar
+            value={searchQuery}
+            onSearch={setSearchQuery}
+            placeholder="Search by title, category, or description..."
+          />
+        </div>
+
+        {filteredBooks.length > 0 ? (
+          <BookGrid books={filteredBooks} />
+        ) : (
+          <EmptyState />
+        )}
+      </main>
+      <footer className="py-6 text-center text-sm text-muted-foreground">
+        <p>&copy; {new Date().getFullYear()} LitFolio. All rights reserved.</p>
+      </footer>
+    </div>
+  );
 }
